@@ -17,7 +17,7 @@ describe("03-functions", function() {
     assert(f("a", "b", "c") === "abc");
   });
   it("3. define function using ArrowFunctionExpression", function() {
-    f = (...args) => args.join('')
+    let f = (...args) => args.join('')
     assert(typeof f === "function");
     assert(f("a", "b") === "ab");
     assert(f("a", "b", "c") === "abc");
@@ -106,7 +106,7 @@ describe("03-functions", function() {
       //TODO:
       //ak je pocet parny vrati "ok"
       //ak je pocet neparny vrati "err"
-      return Array.from(arguments).length %2 === 0 ? "ok" : "err"
+      return Array.from(arguments).length %2 ? "err" : "ok"
     };
     assert(calc(1, 2) === "ok");
     assert(calc(1, 2, 3) === "err");
@@ -122,7 +122,6 @@ describe("03-functions", function() {
         return Math.max(...numbers);
       }
       throw new TypeError();
-      //return (numbers.length === 3 || numbers.length === 6) ? Math.max(...numbers) : throw new TypeError();
     };
     assert(calc(1, 2, 3) === 3);
     assert(calc(1, 2, 3, 5, 2, 3) === 5);
@@ -146,11 +145,16 @@ describe("03-functions", function() {
       // ak pride nespravny pocet
       // tak error
       // inak Max z parametrov
-      if(c === undefined)
+      checkParams();
+      return Math.max(...[a, b, c, ...others]);
+
+      function checkParams(){
+        if(c === undefined)
+          throw new TypeError();
+        if([a, b, c, ...others].length === 3 || [a, b, c, ...others].length === 6)
+          return true;
         throw new TypeError();
-      else if([a,b,c,...others].length === 3 || [a,b,c,...others].length === 6)
-        return Math.max(...[a,b,c,...others]);
-      throw new TypeError();
+      }
     };
     // asserty su zhodne z predoslym
     assert(calc(1, 2, 3) === 3);
@@ -191,7 +195,7 @@ describe("03-functions", function() {
       this.prefix = prefix
       this.sufix = sufix
       this.format = function(text){
-        return this.prefix + text + this.sufix
+        return `${this.prefix}${text}${this.sufix}`;
       }
     }
     let f1 = new Formatter("'", "'");
@@ -207,7 +211,7 @@ describe("03-functions", function() {
 
     function formater(prefix, sufix) {
       return function(text) {
-        return prefix + text + sufix
+        return `${prefix}${text}${sufix}`;
       }
     }
     let format1 = formater("'", "'");
@@ -219,13 +223,13 @@ describe("03-functions", function() {
   });
   it("17. prefix a sufix (using closure)", function() {
 
-    function formater(p, s) {
+    function formater() {
       /*TODO*/
-      let f = function (text){
-          return f.prefix + text + f.sufix;
+      const f = function (text){
+          return `${f.prefix}${text}${f.sufix}`;
       }
-      f.sufix = s;
-      f.prefix = p;
+      f.prefix = arguments[0];
+      f.sufix = arguments[1];
       return f;
     }
 
