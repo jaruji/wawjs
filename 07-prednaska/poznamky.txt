@@ -1,0 +1,12 @@
+util.promisify
+
+writefile(name, data, enc, cb);
+writefile2 = util.promisify(writefile)
+writefile2(name, data, enc)
+x = writefile2
+x.then/catch/finally(.. => ...)
+
+nonstandart .done()., .cancel()
+
+dns a fs maju promise api
+promise api(fs-extras/request-promise)
