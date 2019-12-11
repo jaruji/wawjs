@@ -6,7 +6,10 @@ const path = require("path");
 
 let dir = process.argv[2];
 let filename;
-dir === undefined ? dir = "." : console.log(`All backup willbe stored to ${dir}`);   //if no directory chosen, store to current directory...
+if (!fs.existsSync(dir) || !fs.lstatSync(dir).isDirectory()){
+  console.log("Invalid parameter (should be valid dirpath)")
+  return;
+}   //if no directory chosen, store to current directory...
 
 let server = http.createServer();
 
@@ -27,7 +30,7 @@ server.listen(9999, "localhost")
       }
     }
   )
-  
+
   pipeline(                                //zip received file and send it back to client
     req,
     zlib.createGzip(),
@@ -37,7 +40,7 @@ server.listen(9999, "localhost")
         console.log("Error");
       }
       else{
-        console.log("File.gz sent...");
+        console.log(`${filename}.gz sent...`);
       }
     }
   )

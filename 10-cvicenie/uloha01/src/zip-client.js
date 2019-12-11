@@ -4,9 +4,16 @@ const {pipeline} = require("stream");
 const path = require("path");
 
 let filepath = process.argv[2];
-filepath === undefined ? process.exit(1) : console.log(`Sending ${filepath} to server...`)  //if no file selected, exit process...
+                                                //check if file exists...
+if (!fs.existsSync(filepath) || !fs.lstatSync(filepath).isFile()){
+  console.log("Invalid parameter (should be valid filepath)")
+  return;
+}
 
+
+//filepath === undefined ? process.exit(1) : console.log(`Sending ${filepath} to server...`)  //if no file selected, exit process...
 let filename = path.basename(filepath)
+console.log(`Sending ${filename} to server...`)
 let url = "http://localhost:9999"
 let request = http.request(url, {
   method: "POST"
@@ -19,7 +26,7 @@ pipeline(
   request,
   (err) => {
     if(err){
-      console.log("Error during reading file...");
+      console.log("Error...");
     }
     else{
       console.log("File successfuly sent");
