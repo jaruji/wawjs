@@ -4,44 +4,58 @@ const fs = require("fs");
 const {pipeline} = require("stream");
 const path = require("path");
 
-let dir = process.argv[2];
-let filename;
-if (!fs.existsSync(dir) || !fs.lstatSync(dir).isDirectory()){
-  console.log("Invalid parameter (should be valid dirpath)")
-  return;
-}   //if no directory chosen, store to current directory...
+module.exports = server;
 
-let server = http.createServer();
+function server(dirname){
+  let dir;
+  if(!dirname)
+    dir = process.argv[2];
+  else
+    dir = dirname;
 
-server.listen(9999, "localhost")
-.on("request", (req, res) => {
+  console.log(dir);
 
-  filename = req.headers["name"];           //get name of received file
+  let filename;
+  if (!fs.existsSync(dir) || !fs.lstatSync(dir).isDirectory()){
+    console.log("'Server error': Invalid parameter (should be valid dirpath)")
+    return;
+  }
 
-  pipeline(                                 //store initial file to specified directory
-    req,
-    fs.createWriteStream(`${dir}/${filename}`),
-    (err) => {
-      if(err){
-        console.log("Error");
+  let server = http.createServer();
+
+  server.listen(9999, "localhost")
+  .on("request", (req, res) => {
+
+    filename = req.headers["name"];           //get name of received file
+
+    pipeline(                                 //store initial file to specified directory
+      req,
+      fs.createWriteStream(`${dir}/${filename}`),
+      (err) => {
+        if(err){
+          console.log("Error during writing file");
+          fs.unlinkSync(`${dir}/${filename}`);      //delete file if error occured
+          return;
+        }
+        else{
+          console.log(`File stored to ${dir}/${filename}`)
+        }
       }
-      else{
-        console.log(`File stored to ${dir}/${filename}`)
-      }
-    }
-  )
+    )
 
-  pipeline(                                //zip received file and send it back to client
-    req,
-    zlib.createGzip(),
-    res,
-    (err) =>{
-      if(err){
-        console.log("Error");
+    pipeline(                                //zip received file and send it back to client
+      req,
+      zlib.createGzip(),
+      res,
+      (err) =>{
+        if(err){
+          console.log("Error during zipping file");
+        }
+        else{
+          console.log(`${filename}.gz sent...`);
+        }
       }
-      else{
-        console.log(`${filename}.gz sent...`);
-      }
-    }
-  )
-})
+    )
+  })
+}
+server();
