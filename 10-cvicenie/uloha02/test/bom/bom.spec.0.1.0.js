@@ -90,7 +90,7 @@ describe("bom.js tests", function() {
                 done();
             });
     });
-    it("remove bom - shell remove bom from file", function(done) {
+    it("remove bom - shall remove bom from file", function(done) {
 
     var chunks = [];
 
@@ -115,7 +115,7 @@ describe("bom.js tests", function() {
 
 
 
-  it("remove bom - shell does not remove bom from empty file", function(done) {
+  it("remove bom - shall does not remove bom from empty file", function(done) {
 
     var chunks = [];
 
@@ -136,7 +136,7 @@ describe("bom.js tests", function() {
   });
 
 
-   it("remove bom - shell does nothing to file without bom", (done) => {
+   it("remove bom - shall does nothing to file without bom", (done) => {
 
     var chunks = [];
 
@@ -160,7 +160,7 @@ describe("bom.js tests", function() {
       });
   });
 
-    it("remove bom - shell work with arbitrary chunks sizes", (done) => {
+    it("remove bom - shall work with arbitrary chunks sizes", (done) => {
 
     var chunks = [];
 
