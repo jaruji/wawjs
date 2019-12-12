@@ -13,12 +13,12 @@ function server(dirname){
   else
     dir = dirname;
 
-  console.log(dir);
+  //console.log(dir);
 
   let filename;
   if (!fs.existsSync(dir) || !fs.lstatSync(dir).isDirectory()){
-    console.log("'Server error': Invalid parameter (should be valid dirpath)")
-    return;
+    //console.log("'Server error': Invalid parameter (should be valid dirpath)")
+    return "Error";
   }
 
   let server = http.createServer();
@@ -57,5 +57,7 @@ function server(dirname){
       }
     )
   })
+  return server;
 }
-server();
+
+server(); //for cmd functionality

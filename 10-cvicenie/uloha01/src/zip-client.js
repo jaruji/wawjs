@@ -13,11 +13,11 @@ function client(pathh){
   else
     filepath = pathh;
 
-  console.log(filepath);
+  //console.log(filepath);
                                                   //check if file exists and is valid...
   if (!fs.existsSync(filepath) || !fs.lstatSync(filepath).isFile()){
-    console.log("'Client error': Invalid parameter (should be valid filepath)")
-    return;
+    //console.log("'Client error': Invalid parameter (should be valid filepath)")
+    return "Error";
   }
 
   //filepath === undefined ? process.exit(1) : console.log(`Sending ${filepath} to server...`)  //if no file selected, exit process...
@@ -59,5 +59,7 @@ function client(pathh){
       }
     )
   });
+  return request;
 }
-client();
+
+client(); //for cmd functionality
