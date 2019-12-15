@@ -215,7 +215,6 @@ describe("bom.js tests", function() {
           //   0xef, 0xbb, 0xbf, // utf8 bom
           //   0x2f, 0x2f, 0x20, 0x77, 0x69, 0x74, 0x68
           // ])
-          console.log(chunk)
           // ef bb bf 2f 2f 20 77 69 74 68
           //          /  /     w  i  t  h
           const expected = Buffer.from([
@@ -238,7 +237,6 @@ describe("bom.js tests", function() {
         .once("data", (chunk) => {
 
           assert(Buffer.isBuffer(chunk));
-          console.log(chunk)
           // ef bb bf 2f 2f 20 77 69 74 68
           //          /  /     w  i  t  h
           const expected = Buffer.from([
@@ -262,7 +260,6 @@ describe("bom.js tests", function() {
         .once("data", (chunk) => {
 
           assert(Buffer.isBuffer(chunk));
-          console.log(chunk)
           // ef bb bf 2f 2f 20 77 69 74 68
           //          /  /     w  i  t  h
           const expected = Buffer.from([
@@ -288,7 +285,6 @@ describe("bom.js tests", function() {
         .on('finish', () => {
           const chunk =Buffer.concat(chunks)
           assert(Buffer.isBuffer(chunk));
-          console.log(chunk)
           // ef bb bf 2f 2f 20 77 69 74 68
           //          /  /     w  i  t  h
           const expected = Buffer.from([
@@ -314,7 +310,6 @@ describe("bom.js tests", function() {
         .on('finish', () => {
           const chunk =Buffer.concat(chunks)
           assert(Buffer.isBuffer(chunk));
-          console.log(chunk)
           // ef bb bf 2f 2f 20 77 69 74 68
           //          /  /     w  i  t  h
           const expected = Buffer.from([
